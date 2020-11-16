@@ -9,20 +9,16 @@ import com.cristhiam.reina.challengebefuegoq.controller.SatelliteController;
 import com.cristhiam.reina.challengebefuegoq.pojo.Satellite;
 import com.cristhiam.reina.challengebefuegoq.pojo.request.TopSecretRequest;
 import com.cristhiam.reina.challengebefuegoq.pojo.request.TopSecretSplitRequest;
-import com.cristhiam.reina.challengebefuegoq.pojo.response.Response;
 import com.cristhiam.reina.challengebefuegoq.pojo.response.TopSecretResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -90,10 +86,12 @@ public class SatelliteRest {
                 kenobi.setName("kenobi");
                 break;
             case "skywalker":
+                boleanSatelliteName = true;
                 skywalker = topSecretSplitRequest;
                 skywalker.setName("skywalker");
                 break;
             case "sato":
+                boleanSatelliteName = true;
                 sato = topSecretSplitRequest;
                 sato.setName("sato");
                 break;
@@ -108,5 +106,52 @@ public class SatelliteRest {
     public ResponseEntity<TopSecretResponse> postTopSecretSplit(){
         TopSecretResponse topSecretResponse = getTopSecretResponse(true);
         return new ResponseEntity<>(topSecretResponse, topSecretResponse.getHttpStatus());
+    }
+    
+    @DeleteMapping("/topsecret_split/{satellite_name}")
+    public ResponseEntity<TopSecretResponse> deleteTopSecretSplit(@PathVariable("satellite_name") String satelliteName){
+        
+        boolean boleanSatelliteName = false;
+        
+        switch(satelliteName) {
+            case "kenobi":
+                boleanSatelliteName = true;
+                kenobi = new Satellite();
+                break;
+            case "skywalker":
+                boleanSatelliteName = true;
+                skywalker = new Satellite();
+                break;
+            case "sato":
+                boleanSatelliteName = true;
+                sato = new Satellite();
+                break;
+        }
+        
+        
+        TopSecretResponse topSecretResponse = new TopSecretResponse();
+        
+        if(boleanSatelliteName){
+            topSecretResponse.setHttpStatus(HttpStatus.OK);
+        } else {
+            topSecretResponse.setHttpStatus(HttpStatus.NOT_FOUND);
+        }
+        
+        return new ResponseEntity<>(topSecretResponse, topSecretResponse.getHttpStatus());
+        
+    }
+    
+    @DeleteMapping("/topsecret_split")
+    public ResponseEntity<TopSecretResponse> deleteTopSecretSplitAll(){
+        
+        kenobi = new Satellite();
+        skywalker = new Satellite();
+        sato = new Satellite();
+        
+        TopSecretResponse topSecretResponse = new TopSecretResponse();
+        topSecretResponse.setHttpStatus(HttpStatus.OK);
+        
+        return new ResponseEntity<>(topSecretResponse, topSecretResponse.getHttpStatus());
+        
     }
 }

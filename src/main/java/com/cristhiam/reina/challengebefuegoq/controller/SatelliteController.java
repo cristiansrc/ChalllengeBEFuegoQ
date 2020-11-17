@@ -21,7 +21,7 @@ public interface SatelliteController {
      * @return la posicion en x e y
      * @throws Exception 
      */
-    Position getTrilaterationLocation(List<Satellite> satellites) throws Exception;
+    Position getLocation(List<Satellite> satellites) throws Exception;
 
     /**
      * Este metodo devuelve la ubicacion a partir de las distancias de los satelites
@@ -31,7 +31,7 @@ public interface SatelliteController {
      * @return la posicion en x e y
      * @throws Exception 
      */
-    Position getTrilaterationLocation(double distanceKenobi, double distanceSkywalker, double distanceSato) throws Exception;
+    Position getLocation(double distanceKenobi, double distanceSkywalker, double distanceSato) throws Exception;
 
     /**
      * Este metodo devuelve el mensaje a partir de la informacion enviada por los satelites.

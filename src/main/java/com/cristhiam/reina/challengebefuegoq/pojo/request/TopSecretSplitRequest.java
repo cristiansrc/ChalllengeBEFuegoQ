@@ -6,11 +6,12 @@
 package com.cristhiam.reina.challengebefuegoq.pojo.request;
 
 import com.cristhiam.reina.challengebefuegoq.pojo.Satellite;
+import java.io.Serializable;
 
 /**
  *
  * Cristhiam Reina <cristiansrc@gmail.com>
  */
-public class TopSecretSplitRequest extends Satellite {
+public class TopSecretSplitRequest extends Satellite implements Serializable {
     
 }

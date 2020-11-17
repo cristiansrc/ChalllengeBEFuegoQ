@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("quasar")
+@RequestMapping("/quasar")
 public class SatelliteRest {
     @Autowired
     private SatelliteController satelliteController;
@@ -45,6 +45,7 @@ public class SatelliteRest {
             topSecretResponse.setPosition(satelliteController.getTrilaterationLocation(topSecretRequest.getSatellites()));
             topSecretResponse.setMessage(satelliteController.getMessage(topSecretRequest.getSatellites()));
             topSecretResponse.setHttpStatus(HttpStatus.OK);
+            topSecretResponse.setResponseMessage("El mensaje y la posicion se determinaron.");
         } catch (Exception ex) {
             topSecretResponse.setHttpStatus(HttpStatus.NOT_FOUND);
         }
@@ -56,13 +57,13 @@ public class SatelliteRest {
         TopSecretResponse topSecretResponse = new TopSecretResponse();
         
         if(!boleanSatelliteName || kenobi.getName() == null || skywalker.getName() == null || sato.getName() == null){
-            topSecretResponse.setHttpStatus(HttpStatus.NO_CONTENT);
+            topSecretResponse.setHttpStatus(HttpStatus.NOT_FOUND);
         } else {
             try {
                 topSecretResponse.setPosition(satelliteController.getTrilaterationLocation(kenobi.getDistance(), skywalker.getDistance(), sato.getDistance()));
                 topSecretResponse.setMessage(satelliteController.getMessage(kenobi.getMessage(), skywalker.getMessage(), sato.getMessage()));
             } catch (Exception ex) {
-                topSecretResponse.setHttpStatus(HttpStatus.NO_CONTENT);
+                topSecretResponse.setHttpStatus(HttpStatus.NOT_FOUND);
             }
             
             topSecretResponse.setHttpStatus(HttpStatus.OK);
@@ -71,7 +72,7 @@ public class SatelliteRest {
         return topSecretResponse;
     }
     
-    @PostMapping("/topsecret_split/{satellite_name}")
+    @PostMapping("/topsecret-split/{satellite_name}")
     public ResponseEntity<TopSecretResponse> postTopSecretSplit(
             @PathVariable("satellite_name") String satelliteName, 
             @RequestBody TopSecretSplitRequest topSecretSplitRequest
@@ -99,16 +100,31 @@ public class SatelliteRest {
         
         TopSecretResponse topSecretResponse = getTopSecretResponse(boleanSatelliteName);
         
+        if(!boleanSatelliteName){
+            topSecretResponse.setResponseMessage("La informacion enviada no corresponde a un satelite valido");
+        }else if(topSecretResponse.getResponseCode() != HttpStatus.OK.value()){
+            topSecretResponse.setResponseMessage("Se recibio la informacion de un satelite correctamente, pero no hay suficiente informacion para para determinar el mensaje y la ubicacion.");
+        } else {
+            topSecretResponse.setResponseMessage("El mensaje y la posicion se determinaron.");
+        }
+        
         return new ResponseEntity<>(topSecretResponse, topSecretResponse.getHttpStatus());
     }
     
-    @GetMapping("/topsecret_split")
+    @GetMapping("/topsecret-split")
     public ResponseEntity<TopSecretResponse> postTopSecretSplit(){
         TopSecretResponse topSecretResponse = getTopSecretResponse(true);
+        
+        if(topSecretResponse.getResponseCode() != HttpStatus.OK.value()){
+            topSecretResponse.setResponseMessage("No hay suficiente informacion para determinar el mensaje y la ubicacion del satelite.");
+        } else {
+            topSecretResponse.setResponseMessage("El mensaje y la posicion se determinaron.");
+        }
+        
         return new ResponseEntity<>(topSecretResponse, topSecretResponse.getHttpStatus());
     }
     
-    @DeleteMapping("/topsecret_split/{satellite_name}")
+    @DeleteMapping("/topsecret-split/{satellite_name}")
     public ResponseEntity<TopSecretResponse> deleteTopSecretSplit(@PathVariable("satellite_name") String satelliteName){
         
         boolean boleanSatelliteName = false;
@@ -133,15 +149,17 @@ public class SatelliteRest {
         
         if(boleanSatelliteName){
             topSecretResponse.setHttpStatus(HttpStatus.OK);
+            topSecretResponse.setResponseMessage("La informacion del satelite enviado se elimino correctamente");
         } else {
             topSecretResponse.setHttpStatus(HttpStatus.NOT_FOUND);
+            topSecretResponse.setResponseMessage("El satelite enviado no se encontro");
         }
         
         return new ResponseEntity<>(topSecretResponse, topSecretResponse.getHttpStatus());
         
     }
     
-    @DeleteMapping("/topsecret_split")
+    @DeleteMapping("/topsecret-split")
     public ResponseEntity<TopSecretResponse> deleteTopSecretSplitAll(){
         
         kenobi = new Satellite();
@@ -150,6 +168,8 @@ public class SatelliteRest {
         
         TopSecretResponse topSecretResponse = new TopSecretResponse();
         topSecretResponse.setHttpStatus(HttpStatus.OK);
+        
+        topSecretResponse.setResponseMessage("La informacion de todos los satelites se elimino correctamente.");
         
         return new ResponseEntity<>(topSecretResponse, topSecretResponse.getHttpStatus());
         

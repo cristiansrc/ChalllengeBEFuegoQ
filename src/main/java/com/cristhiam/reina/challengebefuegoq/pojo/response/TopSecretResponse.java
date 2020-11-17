@@ -6,13 +6,15 @@
 package com.cristhiam.reina.challengebefuegoq.pojo.response;
 
 import com.cristhiam.reina.challengebefuegoq.pojo.Position;
+import java.io.Serializable;
 
 
 /**
  *
  * @author Cristhiam Reina <cristiansrc@gmail.com>
  */
-public class TopSecretResponse extends Response{
+
+public class TopSecretResponse extends Response implements Serializable{
     private String message;
     private Position position;
 

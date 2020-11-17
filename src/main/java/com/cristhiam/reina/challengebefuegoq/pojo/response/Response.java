@@ -14,20 +14,28 @@ import org.springframework.http.HttpStatus;
 public abstract class Response {
     
     private HttpStatus httpStatus = HttpStatus.OK;
+    private Integer responseCode;
+    private String responseMessage;
 
     public HttpStatus getHttpStatus() {
         return httpStatus;
     }
 
     public void setHttpStatus(HttpStatus httpStatus) {
+        responseCode = httpStatus.value();
         this.httpStatus = httpStatus;
     }
-    
-    public String getResponse() {
-        return httpStatus.name();
+
+    public Integer getResponseCode() {
+        return responseCode;
     }
 
-    public Integer getRespnseCode() {
-        return httpStatus.value();
+    public String getResponseMessage() {
+        return responseMessage;
     }
+
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
+       
 }

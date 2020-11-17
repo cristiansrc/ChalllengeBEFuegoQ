@@ -6,13 +6,14 @@
 package com.cristhiam.reina.challengebefuegoq.pojo.request;
 
 import com.cristhiam.reina.challengebefuegoq.pojo.Satellite;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Cristhiam Reina <cristiansrc@gmail.com>
  */
-public class TopSecretRequest {
+public class TopSecretRequest implements Serializable {
     private List<Satellite> satellites;
 
     public List<Satellite> getSatellites() {

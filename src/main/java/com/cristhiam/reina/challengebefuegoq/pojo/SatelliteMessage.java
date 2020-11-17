@@ -6,10 +6,11 @@
 package com.cristhiam.reina.challengebefuegoq.pojo;
 
 /**
- *
+ * Clase que contiene la informacion de la posicion del satelite y el mensaje determinado
  * @author Cristhiam Reina <cristiansrc@gmail.com>
  */
 public class SatelliteMessage {
+
     private Position position;
     private double distance;
     private String message;

@@ -9,9 +9,9 @@ import com.cristhiam.reina.challengebefuegoq.pojo.Satellite;
 import java.io.Serializable;
 
 /**
- *
+ * Clase que mapea la informacion del request del servicio topSecretSplit
  * Cristhiam Reina <cristiansrc@gmail.com>
  */
 public class TopSecretSplitRequest extends Satellite implements Serializable {
-    
+
 }

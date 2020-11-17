@@ -8,11 +8,11 @@ package com.cristhiam.reina.challengebefuegoq.pojo.response;
 import org.springframework.http.HttpStatus;
 
 /**
- *
+ * Clase en el que se mapea la informacion del estado de la respuesta de los servicios
  * @author Cristhiam Reina <cristiansrc@gmail.com>
  */
 public abstract class Response {
-    
+
     private HttpStatus httpStatus = HttpStatus.OK;
     private Integer responseCode;
     private String responseMessage;
@@ -37,5 +37,5 @@ public abstract class Response {
     public void setResponseMessage(String responseMessage) {
         this.responseMessage = responseMessage;
     }
-       
+
 }

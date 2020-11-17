@@ -6,16 +6,18 @@
 package com.cristhiam.reina.challengebefuegoq.pojo;
 
 /**
- *
+ * Clase utilizada para enviar la posicion
  * @author Cristhiam Reina <cristiansrc@gmail.com>
  */
 public class Position {
+
     private double x;
     private double y;
-    
-    public Position(){}
-    
-    public Position(double x, double y){
+
+    public Position() {
+    }
+
+    public Position(double x, double y) {
         this.x = x;
         this.y = y;
     }

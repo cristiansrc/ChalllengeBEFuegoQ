@@ -39,7 +39,7 @@ public class SatelliteControllerImpl implements SatelliteController {
     private double satoY;
 
     @Override
-    public Position getTrilaterationLocation(List<Satellite> satellites) throws Exception {
+    public Position getLocation(List<Satellite> satellites) throws Exception {
         double distanceKenobi = 0;
         double distanceSkywalker = 0;
         double distanceSato = 0;
@@ -70,11 +70,11 @@ public class SatelliteControllerImpl implements SatelliteController {
             throw new Exception(Constants.MSG_INDETERMINATE_MESSAGE);
         }
 
-        return getTrilaterationLocation(distanceKenobi, distanceSkywalker, distanceSato);
+        return getLocation(distanceKenobi, distanceSkywalker, distanceSato);
     }
 
     @Override
-    public Position getTrilaterationLocation(double distanceKenobi, double distanceSkywalker, double distanceSato) throws Exception {
+    public Position getLocation(double distanceKenobi, double distanceSkywalker, double distanceSato) throws Exception {
 
         double[] P1 = new double[2];
         double[] P2 = new double[2];

@@ -47,7 +47,7 @@ public class SatelliteRest {
         TopSecretResponse topSecretResponse = new TopSecretResponse();
 
         try {
-            topSecretResponse.setPosition(satelliteController.getTrilaterationLocation(topSecretRequest.getSatellites()));
+            topSecretResponse.setPosition(satelliteController.getLocation(topSecretRequest.getSatellites()));
             topSecretResponse.setMessage(satelliteController.getMessage(topSecretRequest.getSatellites()));
             topSecretResponse.setHttpStatus(HttpStatus.OK);
             topSecretResponse.setResponseMessage(Constants.MSG_DETERMINATE_MASSAGE);
@@ -70,7 +70,7 @@ public class SatelliteRest {
             topSecretResponse.setHttpStatus(HttpStatus.NOT_FOUND);
         } else {
             try {
-                topSecretResponse.setPosition(satelliteController.getTrilaterationLocation(kenobi.getDistance(), skywalker.getDistance(), sato.getDistance()));
+                topSecretResponse.setPosition(satelliteController.getLocation(kenobi.getDistance(), skywalker.getDistance(), sato.getDistance()));
                 topSecretResponse.setMessage(satelliteController.getMessage(kenobi.getMessage(), skywalker.getMessage(), sato.getMessage()));
             } catch (Exception ex) {
                 topSecretResponse.setHttpStatus(HttpStatus.NOT_FOUND);
@@ -128,7 +128,7 @@ public class SatelliteRest {
     }
 
     /**
-     * este metodo devuelve el mensaje y la ubicacion si hay informacion disponible
+     * Este metodo devuelve el mensaje y la ubicacion si hay informacion disponible
      * @return mensaje determinado y la ubicacion
      */
     @GetMapping("/topsecret-split")

@@ -5,6 +5,7 @@
  */
 package com.cristhiam.reina.challengebefuegoq.controller;
 
+import com.cristhiam.reina.challengebefuegoq.constants.Constants;
 import com.cristhiam.reina.challengebefuegoq.pojo.Position;
 import com.cristhiam.reina.challengebefuegoq.pojo.Satellite;
 import java.util.ArrayList;
@@ -12,35 +13,35 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-
 /**
  *
  * @author Cristhiam Reina <cristiansrc@gmail.com>
  */
 @Repository
 public class SatelliteControllerImpl implements SatelliteController {
-    
+
     @Value("${satelite.kenobi.x}")
     private float kenobiX;
-    
+
     @Value("${satelite.kenobi.y}")
     private double kenobiY;
-    
+
     @Value("${satelite.skywalker.x}")
     private double skywalkerX;
-    
+
     @Value("${satelite.skywalker.y}")
     private double skywalkerY;
-    
+
     @Value("${satelite.sato.x}")
     private double satoX;
-    
+
     @Value("${satelite.sato.y}")
     private double satoY;
-    
-     public Position getTrilaterationLocation(List<Satellite> satellites) throws Exception {
-        double distanceKenobi = 0; 
-        double distanceSkywalker = 0; 
+
+    @Override
+    public Position getTrilaterationLocation(List<Satellite> satellites) throws Exception {
+        double distanceKenobi = 0;
+        double distanceSkywalker = 0;
         double distanceSato = 0;
 
         int flag = 0;
@@ -48,36 +49,33 @@ public class SatelliteControllerImpl implements SatelliteController {
         for (int i = 0; i < 3; i++) {
             Satellite satellite = satellites.get(i);
 
-            if(satellite.getName().equalsIgnoreCase("kenobi")){
+            if (satellite.getName().equalsIgnoreCase(Constants.SATELLITE_KENOBI)) {
                 distanceKenobi = satellite.getDistance();
                 flag++;
             }
 
-            if(satellite.getName().equalsIgnoreCase("skywalker")){
+            if (satellite.getName().equalsIgnoreCase(Constants.SATELLITE_SKYWALKER)) {
                 distanceSkywalker = satellite.getDistance();
                 flag++;
             }
 
-            if(satellite.getName().equalsIgnoreCase("sato")){
+            if (satellite.getName().equalsIgnoreCase(Constants.SATELLITE_SATO)) {
                 distanceSato = satellite.getDistance();
                 flag++;
             }
 
         }
-        
-        if(flag != 3){
-            throw new Exception("No se puede determinar la posicion");
-        }
-        
-        return getTrilaterationLocation(distanceKenobi, distanceSkywalker, distanceSato);
-     }
-            
-            
 
-    
+        if (flag != 3) {
+            throw new Exception(Constants.MSG_INDETERMINATE_MESSAGE);
+        }
+
+        return getTrilaterationLocation(distanceKenobi, distanceSkywalker, distanceSato);
+    }
+
+    @Override
     public Position getTrilaterationLocation(double distanceKenobi, double distanceSkywalker, double distanceSato) throws Exception {
 
-        //DECLARE VARIABLES 
         double[] P1 = new double[2];
         double[] P2 = new double[2];
         double[] P3 = new double[2];
@@ -99,8 +97,7 @@ public class SatelliteControllerImpl implements SatelliteController {
         double exx;
         double d;
         double eyy;
-        //TRANSALTE POINTS TO VECTORS 
-        //POINT 1 
+
         P1[0] = kenobiX;
         P1[1] = kenobiY;
         //POINT 2 
@@ -170,10 +167,11 @@ public class SatelliteControllerImpl implements SatelliteController {
         tripty = t1 + t2 + t3;
         return new Position(triptx, tripty);
     }
-         
+
+    @Override
     public String getMessage(List<Satellite> satellites) throws Exception {
-        List<String> strKenobi = new ArrayList<>(); 
-        List<String> strSkywalker = new ArrayList<>(); 
+        List<String> strKenobi = new ArrayList<>();
+        List<String> strSkywalker = new ArrayList<>();
         List<String> strSato = new ArrayList<>();
 
         int flag = 0;
@@ -181,92 +179,92 @@ public class SatelliteControllerImpl implements SatelliteController {
         for (int i = 0; i < 3; i++) {
             Satellite satellite = satellites.get(i);
 
-            if(satellite.getName().equalsIgnoreCase("kenobi")){
+            if (satellite.getName().equalsIgnoreCase(Constants.SATELLITE_KENOBI)) {
                 strKenobi = satellite.getMessage();
                 flag++;
             }
 
-            if(satellite.getName().equalsIgnoreCase("skywalker")){
+            if (satellite.getName().equalsIgnoreCase(Constants.SATELLITE_SKYWALKER)) {
                 strSkywalker = satellite.getMessage();
                 flag++;
             }
 
-            if(satellite.getName().equalsIgnoreCase("sato")){
+            if (satellite.getName().equalsIgnoreCase(Constants.SATELLITE_SATO)) {
                 strSato = satellite.getMessage();
                 flag++;
             }
 
         }
 
-        if(flag != 3){
-            throw new Exception("No se puede determinar el mensaje");
+        if (flag != 3) {
+            throw new Exception(Constants.MSG_INDETERMINATE_MESSAGE);
         }
 
         return getMessage(strKenobi, strSkywalker, strSato);
     }
 
-    
-    public String getMessage(List<String> kenobi, List<String> skywalker, List<String> sato) throws Exception{
+    @Override
+    public String getMessage(List<String> kenobi, List<String> skywalker, List<String> sato) throws Exception {
         StringBuilder sb = new StringBuilder();
-        
-        if(kenobi.size() == skywalker.size() && kenobi.size() == sato.size()){
+
+        if (kenobi.size() == skywalker.size() && kenobi.size() == sato.size()) {
             int iterations = kenobi.size();
-            
+
             for (int i = 0; i < iterations; i++) {
-                String str = "";
-                
-                if(kenobi.get(i) != null && !kenobi.get(i).equalsIgnoreCase("")){
+                String str = Constants.STR_EMPTY;
+
+                if (kenobi.get(i) != null && !kenobi.get(i).equalsIgnoreCase(Constants.STR_EMPTY)) {
                     str = kenobi.get(i);
                 }
-                
-                if(skywalker.get(i) != null && !skywalker.get(i).equalsIgnoreCase("")){
-                    
-                    if(!str.equalsIgnoreCase("") && !str.equalsIgnoreCase(skywalker.get(i))){
-                        throw new Exception("No se puede determinar el mensaje");
+
+                if (skywalker.get(i) != null && !skywalker.get(i).equalsIgnoreCase(Constants.STR_EMPTY)) {
+
+                    if (!str.equalsIgnoreCase(Constants.STR_EMPTY) && !str.equalsIgnoreCase(skywalker.get(i))) {
+                        throw new Exception(Constants.MSG_INDETERMINATE_MESSAGE);
                     }
-                    
+
                     str = skywalker.get(i);
                 }
-                
-                if(skywalker.get(i) != null && !skywalker.get(i).equalsIgnoreCase("")){
-                    
-                    if(!str.equalsIgnoreCase("") && !str.equalsIgnoreCase(skywalker.get(i))){
-                        throw new Exception("No se puede determinar el mensaje");
+
+                if (skywalker.get(i) != null && !skywalker.get(i).equalsIgnoreCase(Constants.STR_EMPTY)) {
+
+                    if (!str.equalsIgnoreCase(Constants.STR_EMPTY) && !str.equalsIgnoreCase(skywalker.get(i))) {
+                        throw new Exception();
                     }
-                    
+
                     str = skywalker.get(i);
                 }
-                
-                if(skywalker.get(i) != null && !skywalker.get(i).equalsIgnoreCase("")){
-                    
-                    if(!str.equalsIgnoreCase("") && !str.equalsIgnoreCase(skywalker.get(i))){
-                        throw new Exception("No se puede determinar el mensaje");
+
+                if (skywalker.get(i) != null && !skywalker.get(i).equalsIgnoreCase(Constants.STR_EMPTY)) {
+
+                    if (!str.equalsIgnoreCase(Constants.STR_EMPTY) && !str.equalsIgnoreCase(skywalker.get(i))) {
+                        throw new Exception(Constants.MSG_INDETERMINATE_MESSAGE);
                     }
-                    
+
                     str = skywalker.get(i);
                 }
-                
-                if(sato.get(i) != null && !sato.get(i).equalsIgnoreCase("")){
-                    
-                    if(!str.equalsIgnoreCase("") && !str.equalsIgnoreCase(sato.get(i))){
-                        throw new Exception("No se puede determinar el mensaje");
+
+                if (sato.get(i) != null && !sato.get(i).equalsIgnoreCase(Constants.STR_EMPTY)) {
+
+                    if (!str.equalsIgnoreCase(Constants.STR_EMPTY) && !str.equalsIgnoreCase(sato.get(i))) {
+                        throw new Exception(Constants.MSG_INDETERMINATE_MESSAGE);
                     }
-                    
+
                     str = sato.get(i);
                 }
-                
-                if(!str.equalsIgnoreCase("")){
+
+                if (!str.equalsIgnoreCase(Constants.STR_EMPTY)) {
                     sb.append(str);
-                    sb.append(" ");
+                    sb.append(Constants.STR_SPACE);
                 } else {
-                    throw new Exception("No se puede determinar el mensaje");
+                    throw new Exception(Constants.MSG_INDETERMINATE_MESSAGE);
                 }
             }
-            
+
         } else {
-            throw new Exception("No se puede determinar el mensaje");
+            throw new Exception(Constants.MSG_INDETERMINATE_MESSAGE);
         }
-        
+
         return sb.toString();
     }
 }

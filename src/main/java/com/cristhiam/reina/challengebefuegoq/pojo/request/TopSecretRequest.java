@@ -10,10 +10,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
+ * Clase que mapea el requrt del servicio topSecret
  * @author Cristhiam Reina <cristiansrc@gmail.com>
  */
 public class TopSecretRequest implements Serializable {
+
     private List<Satellite> satellites;
 
     public List<Satellite> getSatellites() {

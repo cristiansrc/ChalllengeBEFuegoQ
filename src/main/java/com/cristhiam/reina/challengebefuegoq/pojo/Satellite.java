@@ -8,12 +8,14 @@ package com.cristhiam.reina.challengebefuegoq.pojo;
 import java.util.List;
 
 /**
- *
+ * Clase que contiene la informacion enviada por el satelite
  * @author Cristhiam Reina <cristiansrc@gmail.com>
- * 
+ *
  */
 public class Satellite {
-    private String name = null;
+
+    
+    private String name;
     private double distance;
     private List<String> message;
 
